@@ -1,0 +1,877 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700);
+h1,h2,h3,h4,h5,h6 {
+    font-family:"Droid Sans",helvetica,sans-serif;
+    font-weight:700;
+    color:#444
+}
+.roman {
+    font-family:"Droid Sans",helvetica,sans-serif;
+    font-weight:400
+}
+.bold {
+    font-family:"Droid Sans",helvetica,sans-serif;
+    font-weifht:700
+}
+* {
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box
+}
+html {
+    height:100%;
+    position:relative
+}
+body {
+    padding:0;
+    margin:0;
+    height:100%;
+    font-family:"Droid Sans",helvetica,sans-serif;
+    font-size:18px;
+    font-weight:normal;
+    background-color:#fff;
+    color:#222;
+    -webkit-font-smoothing:antialiased
+}
+a {
+    color:#f90;
+    text-decoration:none;
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+a img {
+    border:0
+}
+a:hover {
+    color:#555;
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+ul {
+    margin:0;
+    padding:0
+}
+ul li {
+    list-style:none
+}
+p {
+    font-family:"Droid Sans",helvetica,sans-serif;
+    font-size:16px;
+    line-height:28px;
+    color:#222
+}
+section:after,header:after,footer:after,nav ul:after,.container:after {
+    display:table;
+    content:"";
+    clear:both
+}
+section,header,footer {
+    overflow:hidden
+}
+nav ul li {
+    display:inline-block;
+    float:left
+}
+.container {
+    margin:0 auto;
+    width:1000px
+}
+.btn {
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+.btn:hover {
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+i {
+    display:inline-block;
+    background-repeat:no-repeat
+}
+header {
+    padding:30px 0;
+    background-color:#f9f9f9;
+    overflow:visible;
+    border-bottom:1px solid #e9e9e9
+}
+header div {
+    margin:0 auto
+}
+header div>div {
+    display:inline-block
+}
+header div.logo-box {
+    float:left;
+    width:30%
+}
+header div.logo-box div.logo {
+    margin-right:10px;
+    float:left;
+    height:45px;
+    width:45px;
+    border-radius:3px;
+    border:2px solid #444;
+    text-align:center
+}
+header div.logo-box div.logo i {
+    font-size:24px;
+    line-height:43px;
+    color:#444
+}
+header div.logo-box h1 {
+    margin:0;
+    padding:0;
+    font-size:33px;
+    line-height:27px;
+    color:#444
+}
+header div.logo-box span {
+    padding-left:4px;
+    font-size:14px;
+    color:#444
+}
+header div.user-ctrl {
+    float:right;
+    width:70%
+}
+header div.user-ctrl nav.main-nav>ul {
+    float:right
+}
+header div.user-ctrl nav.main-nav>ul>li {
+    position:relative
+}
+header div.user-ctrl nav.main-nav>ul>li>a {
+    padding:0 14px;
+    font-size:14px;
+    font-weight:bold;
+    line-height:48px;
+    color:#444
+}
+header div.user-ctrl nav.main-nav>ul>li:hover>a {
+    color:#3299bb
+}
+header div.user-ctrl nav.main-nav>ul>li.active>a {
+    color:#3299bb
+}
+header div.user-ctrl nav.main-nav>ul>li:last-child:hover ul {
+    display:block
+}
+header div.user-ctrl nav.main-nav>ul>li ul {
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background-color:#f9f9f9;
+    border-radius:2px;
+    border:1px solid #ebebeb;
+    box-shadow:0 1px 2px 0 rgba(0,0,0,0.04)
+}
+header div.user-ctrl nav.main-nav>ul>li ul li {
+    display:block;
+    float:none;
+    padding:8px 0;
+    border-bottom:1px solid #ebebeb;
+    line-height:1
+}
+header div.user-ctrl nav.main-nav>ul>li ul li a {
+    padding:0 14px;
+    font-size:14px;
+    font-weight:bold;
+    color:#444
+}
+header div.user-ctrl nav.main-nav>ul>li ul li a:hover {
+    color:#666
+}
+header div.user-ctrl nav.main-nav>ul>li ul li:last-child {
+    border:0
+}
+header div.user-ctrl nav.main-nav>ul>li ul:after,header div.user-ctrl nav.main-nav>ul>li ul:before {
+    bottom:100%;
+    left:50%;
+    border:solid transparent;
+    content:" ";
+    height:0;
+    width:0;
+    position:absolute;
+    pointer-events:none
+}
+header div.user-ctrl nav.main-nav>ul>li ul:after {
+    border-color:rgba(249,249,249,0);
+    border-bottom-color:#f9f9f9;
+    border-width:8px;
+    margin-left:-8px
+}
+header div.user-ctrl nav.main-nav>ul>li ul:before {
+    border-color:rgba(235,235,235,0);
+    border-bottom-color:#ebebeb;
+    border-width:9px;
+    margin-left:-9px
+}
+header div.user-ctrl div.user-info span {
+    display:block;
+    margin-bottom:10px;
+    text-align:center
+}
+header div.user-ctrl div.user-info nav ul li {
+    padding:0 15px;
+    font-size:14px;
+    text-align:center;
+    border-right:1px solid #efefef
+}
+header div.user-ctrl div.user-info nav ul li:last-child {
+    border-right:0
+}
+footer {
+    padding:20px 0
+}
+footer>nav,footer>p {
+    display:inline-block;
+    float:left
+}
+footer nav.footer-nav {
+    width:33.3333%
+}
+footer nav.footer-nav ul li {
+    padding:0 15px;
+    font-size:12px;
+    border-right:1px solid #ddd
+}
+footer nav.footer-nav ul li a {
+    color:#444
+}
+footer nav.footer-nav ul li:first-child {
+    padding-left:0
+}
+footer nav.footer-nav ul li:last-child {
+    border-right:0
+}
+footer p {
+    margin:0;
+    width:33.333%;
+    font-size:12px;
+    text-align:center;
+    line-height:1
+}
+footer nav.social-nav {
+    width:33.3333%
+}
+footer nav.social-nav ul {
+    float:right
+}
+footer nav.social-nav ul li {
+    font-size:14px;
+    padding-left:4px
+}
+footer nav.social-nav ul li i {
+    height:22px;
+    width:22px;
+    line-height:22px;
+    border-radius:3px;
+    text-align:center;
+    color:#fff;
+    background-color:#444
+}
+section.home {
+    padding-top:0;
+    min-height:100%
+}
+section.home>section,section.home>aside {
+    display:inline-block;
+    float:left
+}
+section.home div.intro h2 {
+    font-size:32px
+}
+section.home div.intro h2 span {
+    margin-top:15px;
+    display:block;
+    font-size:18px;
+    color:#444;
+    font-weight:400
+}
+section.home div.intro h2 span a {
+    color:#f90
+}
+section.home div.intro h2 span a:hover {
+    text-decoration:underline
+}
+section.home div.intro p {
+    font-size:20px
+}
+section.home section.content {
+    width:73.25%;
+    margin-right:1.75%
+}
+section.home section.content div.achievements {
+    margin-bottom:10px;
+    border:1px solid #ebebeb;
+    border-radius:4px;
+    box-shadow:1px 1px 2px 0 rgba(0,0,0,0.05);
+    overflow:hidden
+}
+section.home section.content div.achievements>h3 {
+    margin:0;
+    padding:15px 20px;
+    font-size:18px;
+    background-color:#f9f9f9
+}
+section.home section.content div.achievements>h3 i {
+    margin-right:5px;
+    font-size:20px;
+    color:#444
+}
+section.home section.content div.achievements>ul>li {
+    position:relative;
+    padding:15px;
+    margin-bottom:10px;
+    border-bottom:1px solid #ebebeb;
+    font-size:14px
+}
+section.home section.content div.achievements>ul>li div.heading {
+    overflow:hidden;
+    padding-left:115px
+}
+section.home section.content div.achievements>ul>li div.heading>h4,section.home section.content div.achievements>ul>li div.heading div.stats {
+    display:inline-block
+}
+section.home section.content div.achievements>ul>li div.heading>h4 {
+    float:left;
+    margin:0;
+    font-size:16px;
+    color:#3299bb
+}
+section.home section.content div.achievements>ul>li div.heading>h4:hover {
+    text-decoration:underline;
+    cursor:pointer
+}
+section.home section.content div.achievements>ul>li div.heading div.stats {
+    float:right
+}
+section.home section.content div.achievements>ul>li div.heading div.stats div {
+    display:inline-block;
+    float:left;
+    color:#444
+}
+section.home section.content div.achievements>ul>li div.heading div.stats div:first-child {
+    margin-right:6px
+}
+section.home section.content div.achievements>ul>li div.info {
+    overflow:hidden;
+    padding-left:115px
+}
+section.home section.content div.achievements>ul>li div.info p {
+    font-size:14px;
+    line-height:18px;
+    color:#555
+}
+section.home section.content div.achievements>ul>li div.info>ul {
+    overflow:hidden
+}
+section.home section.content div.achievements>ul>li div.info>ul li {
+    display:inline-block;
+    float:left;
+    margin-right:12px;
+    font-size:13px;
+    font-style:italic;
+    color:#555
+}
+section.home section.content div.achievements>ul>li div.info>ul li span:first-child {
+    font-weight:bold
+}
+section.home section.content div.achievements>ul>li div.info div.score {
+    position:absolute;
+    top:15px;
+    left:15px;
+    height:100px;
+    width:100px;
+    border-radius:4px;
+    font-size:42px;
+    font-weight:700;
+    text-align:center;
+    line-height:100px;
+    color:#444;
+    background-color:#fff;
+    border:1px solid #e9e9e9
+}
+section.home section.content div.achievements>ul>li:last-child {
+    margin-bottom:0;
+    border-bottom:0
+}
+section.home aside {
+    width:25%
+}
+section.home aside>section {
+    margin-bottom:20px;
+    border:1px solid #efefef;
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:1px 1px 2px 0 rgba(0,0,0,0.05)
+}
+section.home aside>section h3 {
+    margin:0;
+    padding:15px 20px;
+    font-size:18px;
+    background-color:#f9f9f9
+}
+section.home aside>section h3 i {
+    margin-right:5px;
+    font-size:20px;
+    color:#444
+}
+section.home aside>section>ul {
+    margin:0;
+    padding:15px
+}
+section.home aside>section>ul li {
+    margin-bottom:7px;
+    font-size:14px;
+    color:#f90
+}
+section.home aside>section>ul li i {
+    margin-right:5px;
+    width:20px;
+    text-align:center;
+    color:#444
+}
+section.home aside>section>ul li:last-child {
+    margin-bottom:0
+}
+section.home aside>section>ul li:hover span {
+    text-decoration:underline;
+    cursor:pointer
+}
+section.home aside>section>div {
+    padding:0 20px
+}
+section.home aside>section>div h4 {
+    margin:15px 0 10px;
+    font-size:16px
+}
+section.home aside>section>div ol {
+    margin:0 0 20px 0;
+    padding:0 0 0 20px
+}
+section.home aside>section>div ol li {
+    margin-bottom:7px;
+    font-size:14px
+}
+section.home aside>section>div ol li span {
+    display:inline-block
+}
+section.home aside>section>div ol li span:first-child {
+    color:#f90
+}
+section.home aside>section>div ol li span:first-child:hover {
+    text-decoration:underline;
+    cursor:pointer
+}
+section.home aside>section>div ol li span:last-child {
+    float:right
+}
+section.achievements div.search {
+    padding:20px;
+    margin-bottom:20px;
+    width:100%;
+    border:1px solid #ebebeb;
+    border-radius:4px;
+    box-shadow:1px 1px 2px 0 rgba(0,0,0,0.05);
+    overflow:hidden
+}
+section.achievements div.search div.form-row {
+    display:inline-block;
+    float:left;
+    width:20%;
+    margin-right:2%
+}
+section.achievements div.search div.form-row label {
+    display:block;
+    margin-bottom:10px;
+    width:100%;
+    font-size:14px;
+    font-weight:700;
+    font-family:"Droid Sans",helvetica,sans-serif;
+    color:#f90
+}
+section.achievements div.search div.form-row input[type="text"] {
+    padding-left:10px;
+    width:100%;
+    height:36px;
+    border:1px solid #ddd;
+    border-radius:3px;
+    box-shadow:none;
+    font-size:14px;
+    font-family:"Droid Sans",helvetica,sans-serif
+}
+section.achievements div.search div.form-row input[type="text"]:focus {
+    box-shadow:0;
+    outline:0;
+    border:1px solid #3299bb
+}
+section.achievements div.search div.form-row.dates {
+    width:30%
+}
+section.achievements div.search div.form-row.dates input {
+    display:inline-block;
+    float:left;
+    padding-left:10px;
+    width:46%;
+    height:36px;
+    border:1px solid #ddd;
+    border-radius:3px;
+    box-shadow:none;
+    font-size:12px;
+    font-family:"Droid Sans",helvetica,sans-serif
+}
+section.achievements div.search div.form-row.dates input:focus {
+    box-shadow:0;
+    outline:0;
+    border:1px solid #3299bb
+}
+section.achievements div.search div.form-row.dates span {
+    display:inline-block;
+    float:left;
+    width:8%;
+    font-size:12px;
+    line-height:36px;
+    text-align:center
+}
+section.achievements div.search div.form-row:last-child {
+    width:24%;
+    margin-right:0
+}
+section.achievements div.search div.form-row:last-child div.select-wrap {
+    position:relative;
+    display:inline-block;
+    float:left;
+    width:57%;
+    margin-right:4%
+}
+section.achievements div.search div.form-row:last-child div.select-wrap i {
+    position:absolute;
+    top:0;
+    right:12px;
+    color:#ddd;
+    line-height:36px
+}
+section.achievements div.search div.form-row:last-child select {
+    appearance:none;
+    -webkit-appearance:none;
+    padding-left:10px;
+    width:100%;
+    height:36px;
+    border:1px solid #ddd;
+    border-radius:3px;
+    background-color:#fff;
+    font-size:14px;
+    font-family:"Droid Sans",helvetica,sans-serif;
+    color:#444
+}
+section.achievements div.search div.form-row:last-child select:focus {
+    box-shadow:0;
+    outline:0;
+    border:1px solid #3299bb
+}
+section.achievements div.search div.form-row:last-child button {
+    appearance:none;
+    -webkit-appearance:none;
+    width:39%;
+    height:36px;
+    border:none;
+    border-radius:3px;
+    font-family:"Droid Sans",helvetica,sans-serif;
+    font-size:16px;
+    color:#fff;
+    background-color:#3299bb;
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+section.achievements div.search div.form-row:last-child button:hover {
+    background-color:#444;
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+section.achievements section.content {
+    width:100%;
+    margin-right:1.75%
+}
+section.achievements section.content div.achievements {
+    margin-bottom:10px;
+    border:1px solid #ebebeb;
+    border-radius:4px;
+    box-shadow:1px 1px 2px 0 rgba(0,0,0,0.05);
+    overflow:hidden
+}
+section.achievements section.content div.achievements>h3 {
+    margin:0;
+    padding:15px 20px;
+    font-size:18px;
+    background-color:#f9f9f9
+}
+section.achievements section.content div.achievements>h3 i {
+    margin-right:5px;
+    font-size:20px;
+    color:#444
+}
+section.achievements section.content div.achievements>ul>li {
+    position:relative;
+    padding:15px;
+    margin-bottom:10px;
+    border-bottom:1px solid #ebebeb;
+    font-size:14px
+}
+section.achievements section.content div.achievements>ul>li div.heading {
+    overflow:hidden;
+    padding-left:115px
+}
+section.achievements section.content div.achievements>ul>li div.heading>h4,section.achievements section.content div.achievements>ul>li div.heading div.stats {
+    display:inline-block
+}
+section.achievements section.content div.achievements>ul>li div.heading>h4 {
+    float:left;
+    margin:0;
+    font-size:16px;
+    color:#3299bb
+}
+section.achievements section.content div.achievements>ul>li div.heading>h4:hover {
+    text-decoration:underline;
+    cursor:pointer
+}
+section.achievements section.content div.achievements>ul>li div.heading div.stats {
+    float:right
+}
+section.achievements section.content div.achievements>ul>li div.heading div.stats div {
+    display:inline-block;
+    float:left;
+    color:#444
+}
+section.achievements section.content div.achievements>ul>li div.heading div.stats div:first-child {
+    margin-right:6px
+}
+section.achievements section.content div.achievements>ul>li div.info {
+    overflow:hidden;
+    padding-left:115px
+}
+section.achievements section.content div.achievements>ul>li div.info p {
+    font-size:14px;
+    line-height:18px;
+    color:#555
+}
+section.achievements section.content div.achievements>ul>li div.info>ul {
+    overflow:hidden
+}
+section.achievements section.content div.achievements>ul>li div.info>ul li {
+    display:inline-block;
+    float:left;
+    margin-right:12px;
+    font-size:13px;
+    font-style:italic;
+    color:#555
+}
+section.achievements section.content div.achievements>ul>li div.info>ul li span:first-child {
+    font-weight:bold
+}
+section.achievements section.content div.achievements>ul>li div.info div.score {
+    position:absolute;
+    top:15px;
+    left:15px;
+    height:100px;
+    width:100px;
+    border-radius:4px;
+    font-size:42px;
+    font-weight:700;
+    text-align:center;
+    line-height:100px;
+    color:#444;
+    background-color:#fff;
+    border:1px solid #e9e9e9
+}
+section.achievements section.content div.achievements>ul>li:last-child {
+    margin-bottom:0;
+    border-bottom:0
+}
+section.cheevers {
+    padding-top:0
+}
+section.cheevers div.intro h2 {
+    font-size:32px
+}
+section.cheevers div.search {
+    padding:20px;
+    margin-bottom:20px;
+    width:100%;
+    border:1px solid #ebebeb;
+    border-radius:4px;
+    box-shadow:1px 1px 2px 0 rgba(0,0,0,0.05);
+    overflow:hidden
+}
+section.cheevers div.search div.form-row {
+    display:inline-block;
+    float:left;
+    width:13%;
+    margin-right:2%
+}
+section.cheevers div.search div.form-row label {
+    display:block;
+    margin-bottom:10px;
+    width:100%;
+    font-size:14px;
+    font-weight:700;
+    font-family:"Droid Sans",helvetica,sans-serif;
+    color:#f90
+}
+section.cheevers div.search div.form-row input[type="text"] {
+    padding-left:10px;
+    width:100%;
+    height:36px;
+    border:1px solid #ddd;
+    border-radius:3px;
+    box-shadow:none;
+    font-size:14px;
+    font-family:"Droid Sans",helvetica,sans-serif
+}
+section.cheevers div.search div.form-row input[type="text"]:focus {
+    box-shadow:0;
+    outline:0;
+    border:1px solid #3299bb
+}
+section.cheevers div.search div.form-row.and {
+    margin-top:35px;
+    width:3%;
+    font-size:14px;
+    text-align:center
+}
+section.cheevers div.search div.form-row.top-marg {
+    margin-top:26px
+}
+section.cheevers div.search div.form-row:first-child {
+    width:50%
+}
+section.cheevers div.search div.form-row:last-child {
+    margin-right:0
+}
+section.cheevers div.search div.form-row:last-child button {
+    appearance:none;
+    -webkit-appearance:none;
+    width:100%;
+    height:36px;
+    border:none;
+    border-radius:3px;
+    font-family:"Droid Sans",helvetica,sans-serif;
+    font-size:16px;
+    color:#fff;
+    background-color:#3299bb;
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+section.cheevers div.search div.form-row:last-child button:hover {
+    background-color:#444;
+    transition:all 200ms ease-in-out;
+    -webkit-transition:all 200ms ease-in-out;
+    -moz-transition:all 200ms ease-in-out
+}
+section.cheevers section.content {
+    width:100%;
+    margin-right:1.75%
+}
+section.cheevers section.content div.cheevers {
+    margin-bottom:10px;
+    border:1px solid #ebebeb;
+    border-radius:4px;
+    box-shadow:1px 1px 2px 0 rgba(0,0,0,0.05);
+    overflow:hidden
+}
+section.cheevers section.content div.cheevers>h3 {
+    margin:0;
+    padding:15px 20px;
+    font-size:18px;
+    background-color:#f9f9f9
+}
+section.cheevers section.content div.cheevers>h3 i {
+    margin-right:5px;
+    font-size:20px;
+    color:#444
+}
+section.cheevers section.content div.cheevers>ul>li {
+    position:relative;
+    padding:15px;
+    margin-bottom:10px;
+    border-bottom:1px solid #ebebeb;
+    font-size:14px
+}
+section.cheevers section.content div.cheevers>ul>li div.heading {
+    overflow:hidden;
+    padding-left:115px
+}
+section.cheevers section.content div.cheevers>ul>li div.heading>h4,section.cheevers section.content div.cheevers>ul>li div.heading div.stats {
+    display:inline-block
+}
+section.cheevers section.content div.cheevers>ul>li div.heading>h4 {
+    float:left;
+    margin:0;
+    font-size:16px;
+    color:#3299bb
+}
+section.cheevers section.content div.cheevers>ul>li div.heading>h4:hover {
+    text-decoration:underline;
+    cursor:pointer
+}
+section.cheevers section.content div.cheevers>ul>li div.heading div.stats {
+    float:right
+}
+section.cheevers section.content div.cheevers>ul>li div.heading div.stats div {
+    display:inline-block;
+    float:left;
+    color:#444;
+    margin-right:15px
+}
+section.cheevers section.content div.cheevers>ul>li div.heading div.stats div:last-child {
+    margin-right:0
+}
+section.cheevers section.content div.cheevers>ul>li div.info {
+    overflow:hidden;
+    padding-left:115px
+}
+section.cheevers section.content div.cheevers>ul>li div.info p {
+    font-size:14px;
+    line-height:18px;
+    color:#555
+}
+section.cheevers section.content div.cheevers>ul>li div.info>ul {
+    overflow:hidden
+}
+section.cheevers section.content div.cheevers>ul>li div.info>ul li {
+    display:inline-block;
+    float:left;
+    margin-right:12px;
+    font-size:13px;
+    font-style:italic;
+    color:#555
+}
+section.cheevers section.content div.cheevers>ul>li div.info>ul li span:first-child {
+    font-weight:bold
+}
+section.cheevers section.content div.cheevers>ul>li div.info div.avatar {
+    position:absolute;
+    top:0;
+    left:15px;
+    height:100px;
+    width:100px;
+    border-radius:4px;
+    font-size:60px;
+    font-weight:700;
+    text-align:center;
+    line-height:100px;
+    color:#444;
+    background-color:#fff
+}
+section.cheevers section.content div.cheevers>ul>li:last-child {
+    margin-bottom:0;
+    border-bottom:0
+}
