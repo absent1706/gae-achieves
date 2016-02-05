@@ -1,8 +1,18 @@
 application: achieves-1211
-version: 09-config
+version: 12-module
 runtime: python27
+module: default
 api_version: 1
 threadsafe: yes
+
+instance_class: F1
+automatic_scaling:
+  min_idle_instances: 2
+  max_idle_instances: 5
+  min_pending_latency: 2s
+  max_pending_latency: 5s
+  max_concurrent_requests: 5
+
 
 handlers:
 - url: /favicon\.ico

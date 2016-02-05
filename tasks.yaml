@@ -1,0 +1,25 @@
+application: achieves-1211
+version: 12-module
+runtime: python27
+module: tasks
+api_version: 1
+threadsafe: yes
+
+instance_class: B2
+manual_scaling:
+  instances: 2
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /static
+  static_dir: static
+
+- url: /tasks
+  script: tasks.app
+
+libraries:
+- name: webapp2
+  version: "2.5.2"

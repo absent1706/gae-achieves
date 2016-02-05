@@ -1,0 +1,6 @@
+dispatch:
+  - url: "achieves-1211.appspot.com/"
+    module: default
+
+  - url: "*/tasks"
+    module: tasks
