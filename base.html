@@ -29,6 +29,21 @@
             <li><a href="/">Home</a></li>
             <li><a href="/achievements">Achievements</a></li>
             <li><a href="/cheevers">Cheevers</a></li>
+            {% if user %}
+              <li>
+                <a href="#">Welcome {{ user }} <i class="fa fa-chevron-down"></i></a>
+                <ul>
+                  <li><a href="/profile">My Profile</a></li>
+                  <li><a href="/calendar">My Calendar</a></li>
+                  {% if is_admin %}
+                    <li><a href="/admin">Admin</a></li>
+                  {% endif %}
+                  <li><a href="{{ logout_url }}">Logout</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li><a href="{{ login_url }}">Login</a></li>
+            {% endif %}
           </ul>
         </nav>
       </div>

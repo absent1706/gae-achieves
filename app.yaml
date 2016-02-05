@@ -1,5 +1,5 @@
 application: achieves-1211
-version: 12-module
+version: 15-auth
 runtime: python27
 module: default
 api_version: 1
@@ -22,7 +22,19 @@ handlers:
 - url: /static
   static_dir: static
 
-- url: .*
+- url: /profile
+  script: main.app
+  login: required
+
+- url: /calendar
+  script: main.app
+  login: required
+
+- url: /admin
+  script: main.app
+  login: admin
+
+- url: /.*
   script: main.app
 
 libraries:
