@@ -18,15 +18,18 @@ import webapp2
 import jinja2
 import datetime
 import os
+import logging
 
 jinja = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class HomePage(webapp2.RequestHandler):
     def get(self):
+        logging.info('Home page requested')
         template = jinja.get_template('home.html')
         self.response.out.write(template.render())
 
 app = webapp2.WSGIApplication([
-    ('/', HomePage)
+    ('/', HomePage),
+    ('/achievements', HomePage)
 ], debug=True)
