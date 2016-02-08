@@ -1,47 +1,78 @@
 {% extends "base.html" %}
 {% block content %}
+  <!-- Home Container -->
+  <section class="home container">
+    <div class="intro">
+      <h2>Cheeved IT! is a community driven website for submitting, tracking,
+      and managing life achievements. <span><a href="">Login</a> and
+      <a href="">create</a> your portfolio of life achievements now!</span></h2>
+    </div>
+    <!-- Content -->
+    <section class="content">
+      <div class="achievements">
+        <h3><i class="fa fa-fire"></i> Popular Achievements</h3>
+        <ul>
+          {% for a in achievements %}
+            <li>
+              <div class="heading">
+                <h4>{{ a.title }}</h4>
+                <div class="stats">
+                  <div>
+                    <i class="fa fa-thumbs-up"></i>
+                    <span>
+                      <a href="/likeAchievement?key={{ a.key.urlsafe() }}">
+                        {{ a.numLiked }}
+                      </a>
+                    </span>
+                  </div>
+                  <div>
+                    <i class="fa fa-check"></i>
 
-<!-- Home Container -->
-
- <section class="home container">
-
-   <div class="intro">
-     <h2>Cheeved IT! is a community driven website for submitting, tracking,
-     and managing life achievements. <span><a href="">Login</a> and
-     <a href="">create</a> your portfolio of life achievements now!</span></h2>
-   </div>
-
-   <!-- Content -->
-
-   <section class="content">
-
-     <div class="achievements">
-       <h3><i class="fa fa-fire"></i> Popular Achievements</h3>
-
-     </div>
-   </section>
-
-   <!-- Sidebar -->
-
-   <aside>
-     <section class="statistics">
-       <h3><i class="fa fa-trophy"></i> Statistics</h3>
-
-     </section>
-
-     <section class="leaderboards">
-       <h3><i class="fa fa-bar-chart"></i> Leaderboards</h3>
-       <div class="top-scores">
-         <h4>Top Scores</h4>
-
-       </div>
-
-       <div class="top-contributors">
-         <h4>Top Contributers</h4>
-
-       </div>
-     </section>
-   </aside>
- </section>
-
- {% endblock %}
+                    <span>
+                      <a href="/completeAchievement?key={{ a.key.urlsafe() }}">
+                          {{ a.numCheeved }}
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="info">
+                <p>Acquired the Google Compute Engine Qualified Developer certification. <br><br></p>
+                <ul>
+                  <li>
+                    <span>Contributor:</span>
+                    <span>{{ a.contributor }}</span>
+                  </li>
+                  <li>
+                    <span>Category:</span>
+                    <span>{{ a.category }}</span>
+                  </li>
+                  <li>
+                    <span>Created:</span>
+                    <span>{{ a.created }}</span>
+                  </li>
+                </ul>
+                <div class="score">{{ a.score }}</div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+    <!-- Sidebar -->
+    <aside>
+      <section class="statistics">
+        <h3><i class="fa fa-trophy"></i> Statistics</h3>
+      </section>
+      <section class="leaderboards">
+        <h3><i class="fa fa-bar-chart"></i> Leaderboards</h3>
+        <div class="top-scores">
+          <h4>Top Scores</h4>
+        </div>
+        <div class="top-contributors">
+          <h4>Top Contributers</h4>
+        </div>
+      </section>
+    </aside>
+  </section>
+{% endblock %}

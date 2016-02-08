@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="profile container">
+  <div class="intro">
+    <h2>Add your Cheever profile</h2>
+  </div>
+
+  <!-- Content -->
+
+  <section class="content">
+    <section class="profile-edit">
+      <div class="profile-info">
+        <h2><i class="fa fa-edit"></i> My Profile</h2>
+
+        <div class="profile-info-body">
+          <form name="edit-user" action="/profile" method="post">
+            <div class="username">
+              <label>Username:</label>
+              <input name="username" value="{{ cheever.username }}" type="text">
+            </div>
+
+            <div class="email">
+              <label>Email:</label>
+              <input name="notifyEmail" value="{{ cheever.notifyEmail }}" type="email">
+            </div>
+
+            <div class="bio">
+              <label>Bio:</label>
+              <textarea name="bio">{{ cheever.bio }}</textarea>
+            </div>
+
+            <div class="following">
+              <label>Following:</label>
+              <ul>
+
+              </ul>
+            </div>
+
+            <button name="save" type="submit">Update</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="add-new">
+        <h2><i class="fa fa-plus"></i> Add New Achievement</h2>
+
+        <div class="add-new-body">
+          <form name="add-new" action="/newAchievement" method="post">
+            <div class="name">
+              <label>Name:</label>
+              <input name="title" value="New Achievement" type="text">
+            </div>
+
+            <div class="category">
+              <label>Category:</label>
+              <input name="category" type="text">
+            </div>
+
+            <div class="description">
+              <label>Description:</label>
+              <textarea name="description"></textarea>
+            </div>
+
+            <div class="score">
+              <label>Score:</label>
+              <input name="score" value="50" type="text">
+            </div>
+
+            <button name="save" type="submit">Add</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="my-achievements">
+      <h3><i class="fa fa-flag"></i> My Achievements</h3>
+      <ul>
+
+
+
+      </ul>
+    </section>
+  </section>
+</section>
+
+{% endblock %}
