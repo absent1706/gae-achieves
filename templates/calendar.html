@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <section class="achievements container">
+        <div class="intro">
+            <h2>What's on you calendar?</h2>
+        </div>
+        <section class="content">
+            <div class="achievements">
+                <ul>
+                    {% for event in events %}
+                        <li>
+                            <div class="heading">
+                                <h4>{{ event.get('summary') }}</h4>
+                                <div class="info">
+                                    <p>{{ event.get('description') }}</p>
+                                    <ul>
+                                        <li>
+                                            <span>Organizer:</span>
+                                            <span>{{ event.get('organizer').get('displayName') }}</span>
+                                        </li>
+                                        <li>
+                                            <span>Location:</span>
+                                            <span>{{ event.get('location') }}</span>
+                                        </li>
+                                        <li>
+                                            <span>Date:</span>
+                                            <span>{{ event.get('start').get('date') }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </section>
+{% endblock %}
