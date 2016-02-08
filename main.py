@@ -163,7 +163,8 @@ class CheeversPage(_BaseHandler):
         query = Cheever.query()
 
         if self.request.get('username') != '':
-            query = query.filter(Cheever.username == self.request.get('username'))
+            query = query.filter(Cheever.username ==
+                                 self.request.get('username'))
 
         try:
             beginScore = int(self.request.get('beginScore'))
@@ -176,7 +177,6 @@ class CheeversPage(_BaseHandler):
             query = query.filter(Cheever.numScore <= endScore)
         except:
             pass
-
 
         logging.info(self.request.get('beginScore'))
         logging.info(self.request.get('endScore'))
@@ -198,6 +198,7 @@ class CheeversPage(_BaseHandler):
 
         self.response.out.write(
             template.render(self.template_values))
+
 
 class AchievementsPage(_BaseHandler):
 
@@ -250,10 +251,41 @@ class AchievementsPage(_BaseHandler):
             template.render(self.template_values))
 
 
+class followCheever(_BaseHandler):
+
+    def get(self):
+        logging.info('followCheever requested')
+
+        cheever_key = ndb.Key(urlsafe=self.request.get('key'))
+        cheever = cheever_key.get()
+
+        current_key = ndb.Key(Cheever, self.user.email())
+        current = current_key.get()
+
+        if current_key in cheever.followers:
+            cheever.followers.remove(cheever_key)
+            cheever.numFollowers -= 1
+
+            current.following.remove(cheever_key)
+            current.numFollowing -= 1
+
+        else:
+            cheever.followers.append(current_key)
+            cheever.numFollowers += 1
+
+            current.following.append(cheever_key)
+            current.numFollowing += 1
+
+        cheever.put()
+        current.put()
+
+        self.redirect('/cheevers')
+
 
 app = webapp2.WSGIApplication([
     ('/achievements', AchievementsPage),
     ('/cheevers', CheeversPage),
+    ('/followCheever', followCheever),
     ('/profile', ProfilePage),
     ('/newAchievement', NewAchievement),
     ('/calendar', CalendarPage),
