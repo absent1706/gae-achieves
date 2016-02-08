@@ -12,7 +12,52 @@ indexes:
 
 - kind: Achievement
   properties:
+  - name: contributor
+  - name: verified
+  - name: created
+  - name: title
+
+- kind: Achievement
+  properties:
   - name: numLiked
     direction: desc
   - name: score
     direction: desc
+
+- kind: Achievement
+  properties:
+  - name: title
+  - name: verified
+  - name: created
+
+- kind: Achievement
+  properties:
+  - name: verified
+  - name: created
+  - name: score
+
+- kind: Achievement
+  properties:
+  - name: verified
+  - name: created
+  - name: title
+
+- kind: Achievement
+  properties:
+  - name: verified
+  - name: score
+
+- kind: Achievement
+  properties:
+  - name: verified
+  - name: title
+
+- kind: Cheever
+  properties:
+  - name: numScore
+  - name: username
+
+- kind: Cheever
+  properties:
+  - name: username
+  - name: numScore

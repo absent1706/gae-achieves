@@ -8,7 +8,6 @@ import logging
 
 # import sys
 # sys.path.append(os.path.join(sys.path[0], 'lib'))
-# import pdb; pdb.set_trace()
 
 from google.appengine.api import users
 from apiclient.discovery import build
@@ -149,9 +148,112 @@ class NewAchievement(_BaseHandler):
 
         self.redirect('/profile')
 
+
+class CheeversPage(_BaseHandler):
+
+    def get(self):
+        logging.info('CheeversPage class requested')
+        template = jinja.get_template('cheevers.html')
+        self.response.out.write(
+            template.render(self.template_values))
+
+    def post(self):
+        logging.info('CheeversPage posted')
+
+        query = Cheever.query()
+
+        if self.request.get('username') != '':
+            query = query.filter(Cheever.username == self.request.get('username'))
+
+        try:
+            beginScore = int(self.request.get('beginScore'))
+            query = query.filter(Cheever.numScore >= beginScore)
+        except:
+            pass
+
+        try:
+            endScore = int(self.request.get('endScore'))
+            query = query.filter(Cheever.numScore <= endScore)
+        except:
+            pass
+
+
+        logging.info(self.request.get('beginScore'))
+        logging.info(self.request.get('endScore'))
+
+        query = query.order(Cheever.numScore, Cheever.username)
+
+        logging.info(query)
+
+        results = query.fetch()
+
+        current_key = ndb.Key(Cheever, self.user.email())
+        for c in results:
+            c.followText = 'Follow'
+            if current_key in c.followers:
+                c.followText = 'Unfollow'
+
+        self.template_values['cheevers'] = results
+        template = jinja.get_template('cheevers.html')
+
+        self.response.out.write(
+            template.render(self.template_values))
+
+class AchievementsPage(_BaseHandler):
+
+    def get(self):
+        logging.info('AchievementsPage class requested')
+        template = jinja.get_template('achievements.html')
+        self.response.out.write(
+            template.render(self.template_values))
+
+    def post(self):
+        logging.info('AchievementsPage posted')
+
+        query = Achievement.query()
+
+        if self.request.get('title') != '':
+            query = query.filter(Achievement.title ==
+                                 self.request.get('title'))
+
+        if self.request.get('contributor') != '':
+            query = query.filter(
+                Achievement.contributor == self.request.get('contributor'))
+
+        try:
+            beginDate = datetime.datetime.strptime(
+                self.request.get('beginDate'), '%Y-%m-%d')
+            query = query.filter(Achievement.created >= beginDate)
+        except:
+            beginDate = datetime.datetime(1900, 1, 1)
+
+        try:
+            endDate = datetime.datetime.strptime(
+                self.request.get('endDate'), '%Y-%m-%d')
+            query = query.filter(Achievement.created <= endDate)
+        except:
+            endDate = datetime.datetime.now()
+
+        query = query.filter(Achievement.verified == True)
+
+        query = query.order(ndb.GenericProperty(self.request.get('sort')))
+
+        logging.info(self.request.get('sort'))
+        logging.info(query)
+
+        results = query.fetch()
+
+        self.template_values['achievements'] = results
+        template = jinja.get_template('achievements.html')
+
+        self.response.out.write(
+            template.render(self.template_values))
+
+
+
 app = webapp2.WSGIApplication([
-    ('/achievements', HomePage),
-    ('/cheevers', HomePage),
+    ('/achievements', AchievementsPage),
+    ('/cheevers', CheeversPage),
     ('/profile', ProfilePage),
     ('/newAchievement', NewAchievement),
     ('/calendar', CalendarPage),

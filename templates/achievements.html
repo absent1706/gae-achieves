@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="achievements container">
+
+    <div class="intro">
+      <h2>See what achievements others are earning!</h2>
+    </div>
+
+    <div class="search">
+      <form action="/achievements" method="post">
+        <div class="form-row">
+          <label>Achievement Title:</label>
+          <input name="title" placeholder="Enter Achievement" type="text">
+        </div>
+
+        <div class="form-row">
+          <label>Contributor:</label>
+          <input name="contributor" placeholder="Enter Name" type="text">
+        </div>
+
+        <div class="form-row dates">
+          <label>Date Created:</label>
+          <input name="begindate" type="date">
+          <span>to</span>
+          <input name="enddate" type="date">
+        </div>
+
+        <div class="form-row">
+          <label>Sort results by:</label>
+          <label style="color:red">Works ONLY if date filters are NOT set!!!</label>
+          <div class="select-wrap">
+            <select name="sort">
+              <option val="title">title</option>
+              <option val="score">score</option>
+            </select>
+            <i class="fa fa-chevron-down"></i>
+          </div>
+          <small</small>
+          <button name="search" type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+
+
+    <!-- Content -->
+
+    <section class="content">
+
+      <div class="achievements">
+        <h3><i class="fa fa-search"></i> Search Results:</h3>
+          {% include 'achievements/_list.html' %}
+      </div>
+    </section>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+<ul>
+  {% for a in achievements %}
+    <li>
+      <div class="heading">
+        <h4>{{ a.title }}</h4>
+        <div class="stats">
+          <div>
+            <i class="fa fa-thumbs-up"></i>
+            <span>
+              <a href="/likeAchievement?key={{ a.key.urlsafe() }}">
+                {{ a.numLiked }}
+              </a>
+            </span>
+          </div>
+          <div>
+            <i class="fa fa-check"></i>
+
+            <span>
+              <a href="/completeAchievement?key={{ a.key.urlsafe() }}">
+                  {{ a.numCheeved }}
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="info">
+        <p>Acquired the Google Compute Engine Qualified Developer certification. <br><br></p>
+        <ul>
+          <li>
+            <span>Contributor:</span>
+            <span>{{ a.contributor }}</span>
+          </li>
+          <li>
+            <span>Category:</span>
+            <span>{{ a.category }}</span>
+          </li>
+          <li>
+            <span>Created:</span>
+            <span>{{ a.created }}</span>
+          </li>
+        </ul>
+        <div class="score">{{ a.score }}</div>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

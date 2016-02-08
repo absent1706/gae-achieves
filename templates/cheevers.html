@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="cheevers container">
+
+  <div class="intro">
+    <h2>Find your fellow Cheevers and see what they're up to!</h2>
+  </div>
+
+  <div class="search">
+      <form action="/cheevers" method="post">
+          <div class="form-row">
+            <label>Cheever Name:</label>
+            <input name="username" placeholder="Ex: SoftKitty" type="text">
+          </div>
+
+          <div class="form-row">
+            <label>Score between:</label>
+            <input name="beginScore" placeholder="100" type="text">
+          </div>
+
+          <div class="form-row and">
+            <span>and</span>
+          </div>
+
+          <div class="form-row top-marg">
+            <input name="endScore" placeholder="1000" type="text">
+          </div>
+
+          <div class="form-row top-marg">
+            <button name="search" type="submit">Search</button>
+          </div>
+      </form>
+  </div>
+
+  <!-- Content -->
+
+  <section class="content">
+
+    <div class="cheevers">
+      <h3><i class="fa fa-search"></i> Search Results:</h3>
+      <ul>
+        {% for c in cheevers %}
+          <li>
+            <div class="heading">
+              <h4>{{ c.username }}</h4>
+              <div class="stats">
+                <div>
+                  <i class="fa fa-asterisk"></i>
+                  <span>Followers - {{ c.numFollowers }}</span>
+                </div>
+                <div>
+                  <i class="fa fa-check-square"></i>
+                  <span>Following - {{ c.numFollowing }}</span>
+                </div>
+                <div>
+                  <i class="fa fa-heart"></i>
+                  {% if user.email() == c.key.id() %}
+                    It's you
+                  {% else %}
+                    <a href="/followCheever?key={{ c.key.urlsafe() }}">
+                      {{ c.followText }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <div class="info">
+              <p>{{ c.bio }}<br><br></p>
+
+              <ul>
+                <li>
+                  <span>Total Score:</span>
+                  <span>{{ c.numScore }}</span>
+                </li>
+                <li>
+                  <span>Joined:</span>
+                  <span>{{ c.created }}</span>
+                </li>
+              </ul>
+
+              <div class="avatar">
+                <i class="fa fa-user"></i>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+</section>
+{% endblock %}
