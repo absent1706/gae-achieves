@@ -143,8 +143,12 @@ class NewAchievement(_BaseHandler):
         cheever.numContribs += 1
 
         # Commit our updates to the datastore
-        achievement.put()
-        cheever.put()
+        @ndb.transactional(xg=True)
+        def commit():
+            achievement.put()
+            cheever.put()
+
+        commit()
 
         self.redirect('/profile')
 
@@ -276,8 +280,12 @@ class followCheever(_BaseHandler):
             current.following.append(cheever_key)
             current.numFollowing += 1
 
-        cheever.put()
-        current.put()
+        @ndb.transactional(xg=True)
+        def commit():
+            cheever.put()
+            current.put()
+
+        commit()
 
         self.redirect('/cheevers')
 
@@ -300,8 +308,12 @@ class likeAchievement(_BaseHandler):
             current.liked.append(achievement_key)
             achievement.numLiked += 1
 
-        achievement.put()
-        current.put()
+        @ndb.transactional(xg=True)
+        def commit():
+            achievement.put()
+            current.put()
+
+        commit()
 
         self.redirect('/')
 
@@ -326,8 +338,12 @@ class completeAchievement(_BaseHandler):
             current.numScore += achievement.score
             achievement.numCheeved += 1
 
-        achievement.put()
-        current.put()
+        @ndb.transactional(xg=True)
+        def commit():
+            achievement.put()
+            current.put()
+
+        commit()
 
         self.redirect('/')
 
