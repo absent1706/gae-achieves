@@ -282,10 +282,61 @@ class followCheever(_BaseHandler):
         self.redirect('/cheevers')
 
 
+class likeAchievement(_BaseHandler):
+
+    def get(self):
+        logging.info('likeAchievement requested')
+
+        achievement_key = ndb.Key(urlsafe=self.request.get('key'))
+        achievement = achievement_key.get()
+
+        current_key = ndb.Key(Cheever, self.user.email())
+        current = current_key.get()
+
+        if achievement_key in current.liked:
+            current.liked.remove(achievement_key)
+            achievement.numLiked -= 1
+        else:
+            current.liked.append(achievement_key)
+            achievement.numLiked += 1
+
+        achievement.put()
+        current.put()
+
+        self.redirect('/')
+
+
+class completeAchievement(_BaseHandler):
+
+    def get(self):
+        logging.info('completeAchievement requested')
+
+        achievement_key = ndb.Key(urlsafe=self.request.get('key'))
+        achievement = achievement_key.get()
+
+        current_key = ndb.Key(Cheever, self.user.email())
+        current = current_key.get()
+
+        if achievement_key in current.cheeved:
+            current.cheeved.remove(achievement_key)
+            current.numScore -= achievement.score
+            achievement.numCheeved -= 1
+        else:
+            current.cheeved.append(achievement_key)
+            current.numScore += achievement.score
+            achievement.numCheeved += 1
+
+        achievement.put()
+        current.put()
+
+        self.redirect('/')
+
 app = webapp2.WSGIApplication([
     ('/achievements', AchievementsPage),
     ('/cheevers', CheeversPage),
     ('/followCheever', followCheever),
+    ('/likeAchievement', likeAchievement),
+    ('/completeAchievement', completeAchievement),
     ('/profile', ProfilePage),
     ('/newAchievement', NewAchievement),
     ('/calendar', CalendarPage),

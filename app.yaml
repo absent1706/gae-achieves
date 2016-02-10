@@ -1,5 +1,5 @@
 application: achieves-1211
-version: 15-auth
+version: 18-datastore
 runtime: python27
 module: default
 api_version: 1
