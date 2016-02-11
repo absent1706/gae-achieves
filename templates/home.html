@@ -18,14 +18,47 @@
     <aside>
       <section class="statistics">
         <h3><i class="fa fa-trophy"></i> Statistics</h3>
+        <ul>
+          <li>
+            <i class="fa fa-user"></i>
+            <span>{{ systemStats.numUsers }} users</span>
+          </li>
+          <li>
+            <i class="fa fa-users"></i>
+            <span>{{ systemStats.numContributors }}  contributors</span>
+          </li>
+          <li>
+            <i class="fa fa-certificate"></i>
+            <span>{{ systemStats.numAchievements }}  achievements</span>
+          </li>
+          <li>
+            <i class="fa fa-star"></i>
+            <span>{{ systemStats.maxScore }}  maxpoints</span>
+          </li>
+          <li><h5>Last updated @ {{ systemStats.created }}</h5></li>
+        </ul>
       </section>
       <section class="leaderboards">
         <h3><i class="fa fa-bar-chart"></i> Leaderboards</h3>
         <div class="top-scores">
           <h4>Top Scores</h4>
+          <ol>
+            {% for stat in scoreStats %}
+              <li>
+                <span style="float:left">{{ stat.username }} ({{ stat.value }}) </span>
+              </li>
+            {% endfor %}
+          </ol>
         </div>
         <div class="top-contributors">
           <h4>Top Contributers</h4>
+          <ol>
+            {% for stat in contribStats %}
+              <li>
+                <span style="float:left">{{ stat.username }} ({{ stat.value }}) </span>
+              </li>
+            {% endfor %}
+          </ol>
         </div>
       </section>
     </aside>

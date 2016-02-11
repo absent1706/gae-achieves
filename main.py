@@ -16,6 +16,8 @@ from oauth2client.appengine import OAuth2Decorator
 from models import Cheever, Achievement, LeaderboardStats, SystemStats
 from google.appengine.ext import ndb
 
+from google.appengine.api import memcache
+
 calendarauthdecorator = OAuth2Decorator(
     client_id='970235710504-3l5ka4kem2lg68eb7tkb10mjr2ghtrif.apps.googleusercontent.com',
     client_secret='Nsj0qTDutY9P8VYQsGXDIla0',
@@ -47,11 +49,40 @@ class HomePage(_BaseHandler):
     def get(self):
         logging.info('Home page requested')
 
-        results = Achievement.query().order(
-            -Achievement.numLiked,
-            -Achievement.score).fetch()
+        results = memcache.get('popular')
+
+        if results is None:
+            results = Achievement.query().order(
+                -Achievement.numLiked,
+                -Achievement.score).fetch(10)
+            memcache.add('popular', results, time=60)
 
         self.template_values['achievements'] = results
+
+        contribStats = memcache.get('contribStats')
+        if contribStats is None:
+            query = LeaderboardStats.query()
+            query = query.filter(LeaderboardStats.statType == 'contribution')
+            query = query.order(-LeaderboardStats.value)
+            contribStats = query.fetch()
+
+            memcache.add('contribStats', contribStats)
+
+        self.template_values['contribStats'] = contribStats
+
+        scoreStats = memcache.get('scoreStats')
+        if scoreStats is None:
+                query = LeaderboardStats.query()
+                query = query.filter(LeaderboardStats.statType == 'score')
+                query = query.order(-LeaderboardStats.value)
+                scoreStats = query.fetch()
+
+                memcache.add('scoreStats', scoreStats)
+
+        self.template_values['scoreStats'] = scoreStats
+
+        systemStats = memcache.get('systemStats')
+        self.template_values['systemStats'] = systemStats
 
         template = jinja.get_template('home.html')
         self.response.out.write(template.render(self.template_values))
@@ -347,6 +378,69 @@ class completeAchievement(_BaseHandler):
 
         self.redirect('/')
 
+
+class GenerateSystemStats(_BaseHandler):
+
+    def get(self):
+        logging.info('Generating SystemStats')
+
+        achievements = Achievement.query().filter(Achievement.verified == True).fetch()
+        cheevers = Cheever.query().fetch()
+        contributors = Achievement.query(
+            projection=[Achievement.contributor], distinct=True).fetch()
+
+        maxScore = 0
+        for a in achievements:
+            maxScore += a.score
+
+        systemStats = SystemStats(
+            numUsers=cheevers.__len__(),
+            numContributors=contributors.__len__(),
+            numAchievements=achievements.__len__(),
+            maxScore=maxScore,
+            created=datetime.datetime.now()
+        )
+
+        systemStats.put()
+        memcache.set('systemStats', systemStats)
+
+class GenerateLeaderboardStats(_BaseHandler):
+
+    def get(self):
+        logging.info('Generate LeaderboardStats')
+
+        cheevers = Cheever.query().order(-Cheever.numScore).fetch(10)
+        for pos in range(0, cheevers.__len__()):
+            leaderboardPos_key = ndb.Key('LeaderboardStats', str(pos)+'s')
+            leaderboardPos =  leaderboardPos_key.get()
+            if not leaderboardPos:
+                leaderboardPos = LeaderboardStats(key=leaderboardPos_key)
+
+            leaderboardPos.populate(
+                username = cheevers[pos].username,
+                statType = 'score',
+                value = cheevers[pos].numScore
+            )
+            leaderboardPos.put()
+
+        cheevers = Cheever.query().order(-Cheever.numContribs).fetch(10)
+        for pos in range(0, cheevers.__len__()):
+            leaderboardPos_key = ndb.Key('LeaderboardStats', str(pos)+'st')
+            leaderboardPos = leaderboardPos_key.get()
+            if not leaderboardPos:
+                leaderboardPos = LeaderboardStats(key=leaderboardPos_key)
+
+            leaderboardPos.populate(
+                username = cheevers[pos].username,
+                statType = 'contribution',
+                value = cheevers[pos].numContribs
+            )
+
+            leaderboardPos.put()
+
+        memcache.delete('contribStats')
+        memcache.delete('scoreStats')
+
 app = webapp2.WSGIApplication([
     ('/achievements', AchievementsPage),
     ('/cheevers', CheeversPage),
@@ -357,6 +451,9 @@ app = webapp2.WSGIApplication([
     ('/newAchievement', NewAchievement),
     ('/calendar', CalendarPage),
     ('/admin', HomePage),
+    ('/generateSystemStats', GenerateSystemStats),
+    ('/generateLeaderboardStats', GenerateLeaderboardStats),
+
     (calendarauthdecorator.callback_path, calendarauthdecorator.callback_handler()),
     ('/', HomePage),
 ], debug=True)

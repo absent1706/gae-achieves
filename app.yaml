@@ -1,5 +1,5 @@
 application: achieves-1211
-version: 18-datastore
+version: 25-memcache
 runtime: python27
 module: default
 api_version: 1
@@ -33,6 +33,12 @@ handlers:
 - url: /admin
   script: main.app
   login: admin
+
+
+- url: /stats.*
+  script: google.appengine.ext.appstats.ui.app
+  login: admin
+
 
 - url: /.*
   script: main.app

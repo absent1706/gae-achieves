@@ -21,3 +21,19 @@ indexes:
   properties:
   - name: verified
   - name: title
+
+- kind: Cheever
+  properties:
+  - name: numScore
+  - name: username
+
+- kind: LeaderboardStats
+  properties:
+  - name: type
+  - name: value
+
+- kind: LeaderboardStats
+  properties:
+  - name: type
+  - name: value
+    direction: desc
