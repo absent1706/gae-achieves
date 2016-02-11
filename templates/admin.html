@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+  <!-- Home Container -->
+  <section class="home container">
+    <!-- Content -->
+    <section class="content">
+      <div class="intro">
+        <h2>Pending Achievements for admin approval</h2>
+      </div>
+      <div class="achievements">
+        <h3><i class="fa fa-fire"></i>Pending Achievements</h3>
+          <ul>
+            {% for a in achievements %}
+              <li>
+                <div class="heading">
+                  <h4>{{ a.title }}</h4>
+                  <div class="stats">
+                    <div>
+                      <i class="fa fa-thumbs-up"></i>
+                      <span>
+                        <form id="accept-{{ a.key.urlsafe() }}" method="post" action="/admin">
+                          <input type="hidden" name="key" value="{{ a.key.urlsafe() }}">
+                          <input type="hidden" name="action" value="accept">
+                          <a onclick="document.getElementById('accept-{{ a.key.urlsafe() }}').submit();">
+                            Accept
+                          </a>
+                        </form>
+                      </span>
+                    </div>
+                    <div>
+                      <i class="fa fa-thumbs-down"></i>
+                      <span>
+                        <form id="reject-{{ a.key.urlsafe() }}" method="post" action="/admin">
+                          <input type="hidden" name="key" value="{{ a.key.urlsafe() }}">
+                          <input type="hidden" name="action" value="reject">
+                          <a onclick="document.getElementById('reject-{{ a.key.urlsafe() }}').submit();">
+                            Reject
+                          </a>
+                        </form>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="info">
+                  <p>Acquired the Google Compute Engine Qualified Developer certification. <br><br></p>
+                  <ul>
+                    <li>
+                      <span>Contributor:</span>
+                      <span>{{ a.contributor }}</span>
+                    </li>
+                    <li>
+                      <span>Category:</span>
+                      <span>{{ a.category }}</span>
+                    </li>
+                    <li>
+                      <span>Created:</span>
+                      <span>{{ a.created }}</span>
+                    </li>
+                  </ul>
+                  <div class="score">{{ a.score }}</div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+      </div>
+    </section>
+  </section>
+{% endblock %}

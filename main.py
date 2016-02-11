@@ -18,6 +18,8 @@ from google.appengine.ext import ndb
 
 from google.appengine.api import memcache
 
+from google.appengine.api import taskqueue, mail
+
 calendarauthdecorator = OAuth2Decorator(
     client_id='970235710504-3l5ka4kem2lg68eb7tkb10mjr2ghtrif.apps.googleusercontent.com',
     client_secret='Nsj0qTDutY9P8VYQsGXDIla0',
@@ -72,12 +74,12 @@ class HomePage(_BaseHandler):
 
         scoreStats = memcache.get('scoreStats')
         if scoreStats is None:
-                query = LeaderboardStats.query()
-                query = query.filter(LeaderboardStats.statType == 'score')
-                query = query.order(-LeaderboardStats.value)
-                scoreStats = query.fetch()
+            query = LeaderboardStats.query()
+            query = query.filter(LeaderboardStats.statType == 'score')
+            query = query.order(-LeaderboardStats.value)
+            scoreStats = query.fetch()
 
-                memcache.add('scoreStats', scoreStats)
+            memcache.add('scoreStats', scoreStats)
 
         self.template_values['scoreStats'] = scoreStats
 
@@ -168,7 +170,7 @@ class NewAchievement(_BaseHandler):
             category=self.request.get('category'),
             score=int(self.request.get('score')),
             contributor=cheever.username,
-            verified=True
+            verified=False
         )
 
         cheever.numContribs += 1
@@ -404,6 +406,7 @@ class GenerateSystemStats(_BaseHandler):
         systemStats.put()
         memcache.set('systemStats', systemStats)
 
+
 class GenerateLeaderboardStats(_BaseHandler):
 
     def get(self):
@@ -411,35 +414,99 @@ class GenerateLeaderboardStats(_BaseHandler):
 
         cheevers = Cheever.query().order(-Cheever.numScore).fetch(10)
         for pos in range(0, cheevers.__len__()):
-            leaderboardPos_key = ndb.Key('LeaderboardStats', str(pos)+'s')
-            leaderboardPos =  leaderboardPos_key.get()
-            if not leaderboardPos:
-                leaderboardPos = LeaderboardStats(key=leaderboardPos_key)
-
-            leaderboardPos.populate(
-                username = cheevers[pos].username,
-                statType = 'score',
-                value = cheevers[pos].numScore
-            )
-            leaderboardPos.put()
-
-        cheevers = Cheever.query().order(-Cheever.numContribs).fetch(10)
-        for pos in range(0, cheevers.__len__()):
-            leaderboardPos_key = ndb.Key('LeaderboardStats', str(pos)+'st')
+            leaderboardPos_key = ndb.Key('LeaderboardStats', str(pos) + 's')
             leaderboardPos = leaderboardPos_key.get()
             if not leaderboardPos:
                 leaderboardPos = LeaderboardStats(key=leaderboardPos_key)
 
             leaderboardPos.populate(
-                username = cheevers[pos].username,
-                statType = 'contribution',
-                value = cheevers[pos].numContribs
+                username=cheevers[pos].username,
+                statType='score',
+                value=cheevers[pos].numScore
+            )
+            leaderboardPos.put()
+
+        cheevers = Cheever.query().order(-Cheever.numContribs).fetch(10)
+        for pos in range(0, cheevers.__len__()):
+            leaderboardPos_key = ndb.Key('LeaderboardStats', str(pos) + 'st')
+            leaderboardPos = leaderboardPos_key.get()
+            if not leaderboardPos:
+                leaderboardPos = LeaderboardStats(key=leaderboardPos_key)
+
+            leaderboardPos.populate(
+                username=cheevers[pos].username,
+                statType='contribution',
+                value=cheevers[pos].numContribs
             )
 
             leaderboardPos.put()
 
         memcache.delete('contribStats')
         memcache.delete('scoreStats')
+
+
+class AdminPage(_BaseHandler):
+
+    def get(self):
+        logging.info('AdminPage requested')
+
+        achievements = Achievement.query().filter(
+            Achievement.verified == False).fetch()
+
+        self.template_values['achievements'] = achievements
+
+        template = jinja.get_template('admin.html')
+        self.response.out.write(template.render(self.template_values))
+
+    def post(self):
+        logging.info('AdminPage Posted')
+
+        if self.request.get('action') == "accept":
+            achievement = ndb.Key(urlsafe=self.request.get('key')).get()
+            achievement.verified = True
+            achievement.put()
+
+            cheever = Cheever.query().filter(
+                Cheever.username == achievement.contributor).get()
+            import pdb; pdb.set_trace()
+            for f in cheever.followers:
+                follower = f.get()
+                if follower:
+                    logging.info('Adding Notify Task for ' +
+                                 follower.username)
+                    t = taskqueue.Task(
+                        url='/notifyTask',
+                        params={
+                            'username': follower.username,
+                            'email': follower.notifyEmail,
+                            'title': achievement.title,
+                            'description': achievement.description,
+                            'category': achievement.category,
+                            'score': achievement.score
+                        }
+                    )
+                    t.add(queue_name='cheevedit-push-queue')
+
+
+class NotifyTask(_BaseHandler):
+
+    def post(self):
+        logging.info('NotifyTask Posted')
+        subject = 'Cheeved IT! - User {} created a new achievement!'.format(self.request.get('username'))
+        body = 'Username: {} \n Achievement Title: {} \n Category: {} \n Description: {} \n Score: {} '. \
+            format(self.request.get('username'),
+                   self.request.get('title'),
+                   self.request.get('category'),
+                   self.request.get('description'),
+                   self.request.get('score'))
+
+        mail.send_mail(sender="CheevedIT! Admin <gcp@cbtnuggets.com>",
+                       to='{} <{}>'.format(self.request.get('username'),
+                                           self.request.get('email')),
+                       subject=subject,
+                       body=body)
+
+        self.redirect('/')
 
 app = webapp2.WSGIApplication([
     ('/achievements', AchievementsPage),
@@ -450,9 +517,10 @@ app = webapp2.WSGIApplication([
     ('/profile', ProfilePage),
     ('/newAchievement', NewAchievement),
     ('/calendar', CalendarPage),
-    ('/admin', HomePage),
+    ('/admin', AdminPage),
     ('/generateSystemStats', GenerateSystemStats),
     ('/generateLeaderboardStats', GenerateLeaderboardStats),
+    ('/notifyTask', NotifyTask),
 
     (calendarauthdecorator.callback_path, calendarauthdecorator.callback_handler()),
     ('/', HomePage),
