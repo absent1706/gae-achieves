@@ -8,3 +8,6 @@ queue:
     min_backoff_seconds: 10
     max_backoff_seconds: 60
     max_doublings: 3
+
+- name: cheevedit-pull-queue
+  mode: pull

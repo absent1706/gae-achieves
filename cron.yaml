@@ -1,0 +1,14 @@
+cron:
+
+- description: Generate System Stats
+  url: /generateSystemStats
+  schedule: every 10 minutes
+
+- description: Generate Leaderboard Stats
+  url: /generateLeaderboardStats
+  schedule: every 5 minutes
+  timezone: America/New_York
+
+- description: Pull Rejected Achievements
+  url: /pullTask
+  schedule: every 2 minutes

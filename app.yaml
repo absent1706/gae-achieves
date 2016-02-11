@@ -1,5 +1,5 @@
 application: achieves-1211
-version: 25-memcache
+version: 29-queues
 runtime: python27
 module: default
 api_version: 1

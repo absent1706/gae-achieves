@@ -468,7 +468,6 @@ class AdminPage(_BaseHandler):
 
             cheever = Cheever.query().filter(
                 Cheever.username == achievement.contributor).get()
-            import pdb; pdb.set_trace()
             for f in cheever.followers:
                 follower = f.get()
                 if follower:
@@ -487,12 +486,23 @@ class AdminPage(_BaseHandler):
                     )
                     t.add(queue_name='cheevedit-push-queue')
 
+        if self.request.get('action') == "reject":
+            logging.info('Rejecting ..')
+            t = taskqueue.Task(
+                method='pull',
+                payload=str(self.request.get('key'))
+            )
+            logging.info(t.payload)
+            t.add(queue_name='cheevedit-pull-queue')
+
+        self.redirect('/admin')
 
 class NotifyTask(_BaseHandler):
 
     def post(self):
         logging.info('NotifyTask Posted')
-        subject = 'Cheeved IT! - User {} created a new achievement!'.format(self.request.get('username'))
+        subject = 'Cheeved IT! - User {} created a new achievement!'.format(
+            self.request.get('username'))
         body = 'Username: {} \n Achievement Title: {} \n Category: {} \n Description: {} \n Score: {} '. \
             format(self.request.get('username'),
                    self.request.get('title'),
@@ -506,7 +516,19 @@ class NotifyTask(_BaseHandler):
                        subject=subject,
                        body=body)
 
-        self.redirect('/')
+
+class PullTask(_BaseHandler):
+
+    def get(self):
+        logging.info('PullTask requested')
+        queue = taskqueue.Queue('cheevedit-pull-queue')
+        tasks = queue.lease_tasks(20, 5)
+
+        for task in tasks:
+            ach_key = ndb.Key(urlsafe=task.payload)
+            ach_key.delete()
+
+            queue.delete_tasks(task)
 
 app = webapp2.WSGIApplication([
     ('/achievements', AchievementsPage),
@@ -521,6 +543,7 @@ app = webapp2.WSGIApplication([
     ('/generateSystemStats', GenerateSystemStats),
     ('/generateLeaderboardStats', GenerateLeaderboardStats),
     ('/notifyTask', NotifyTask),
+    ('/pullTask', PullTask),
 
     (calendarauthdecorator.callback_path, calendarauthdecorator.callback_handler()),
     ('/', HomePage),
